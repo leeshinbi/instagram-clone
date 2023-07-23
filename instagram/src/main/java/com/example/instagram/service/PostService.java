@@ -27,15 +27,32 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public Post createPost(Post post) {
-        return postRepository.save(post);
+    public Long createPost(Post post) {
+        Post newPost = postRepository.save(post);
+        return newPost.getId();
     }
 
-    public Post updatePost(Post post) {
-        return postRepository.save(post);
+
+    public Long updatePost(Long id, Post post) {
+        Optional<Post> optionalPost = postRepository.findById(id);
+
+        if (optionalPost.isPresent()) {
+            Post existingPost = optionalPost.get();
+            existingPost.setPhotos(post.getPhotos());
+            existingPost.setContents(post.getContents());
+            postRepository.save(existingPost);
+
+            return existingPost.getId(); // Post 객체의 id를 반환
+        }
+
+        return null;
     }
 
-    public void deletePostById(Long id) {
-        postRepository.deleteById(id);
+    public Boolean delete(long id) {
+        if (postRepository.existsById(id)) {
+            postRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

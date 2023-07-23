@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -17,7 +14,12 @@ import javax.persistence.Id;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-    private String title;
-    private String content;
+
+    @Column(nullable = false)
+    private String photos;
+
+    @Column(nullable = true, length = 150)
+    private String contents;
 }
